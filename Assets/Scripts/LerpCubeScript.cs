@@ -18,6 +18,11 @@ public class LerpCubeScript : MonoBehaviour {
     {
         float t = 0;
 
+        System.Diagnostics.Stopwatch stopwatch =
+            new System.Diagnostics.Stopwatch();
+        stopwatch.Start();
+
+
         while (t < 1)
         {
             t += Time.deltaTime;
@@ -28,6 +33,10 @@ public class LerpCubeScript : MonoBehaviour {
                 _cube.transform.position = _rightPosition;
             }
             yield return null;
+
+            stopwatch.Stop();
+            Debug.Log("Time taken:" + (stopwatch.Elapsed));
+
         }
     }
 
