@@ -5,8 +5,13 @@ using UnityEngine;
 public class LerpCubeScript : MonoBehaviour {
 
     public GameObject _cube;
-    public Vector3 _leftPosition;
-    public Vector3 _rightPosition;
+    public Vector2 _leftPosition;
+    public Vector2 _rightPosition;
+
+    float Lerp(float a, float b, float t)
+    {
+        return a + (b - a) * t;
+    }
 
     public void StartLerp()
     {
@@ -18,6 +23,9 @@ public class LerpCubeScript : MonoBehaviour {
     {
         float t = 0;
 
+
+
+        //Stopwatch
         System.Diagnostics.Stopwatch stopwatch =
             new System.Diagnostics.Stopwatch();
         stopwatch.Start();
@@ -25,10 +33,13 @@ public class LerpCubeScript : MonoBehaviour {
 
         while (t < 1)
         {
+            float SmoothStart = t * t;
+            float SmoothStop = 1 - (1 - t) * (1 - t);
+
             t += Time.deltaTime;
             Debug.Log(t);
-            _cube.transform.position = Vector3.Lerp(_leftPosition, _rightPosition, t);
-            if(t >=1)
+            _cube.transform.position = Vector2.Lerp(_leftPosition, _rightPosition,Lerp(SmoothStart,SmoothStop,t)); //(Smooth start is t * t), (t * t) +((1 - (1 - t) * (1 - t))-(t* t)) *t)
+            if (t >= 1)
             {
                 _cube.transform.position = _rightPosition;
             }
@@ -40,12 +51,14 @@ public class LerpCubeScript : MonoBehaviour {
         }
     }
 
-    //insert code here:
+    //Debug String
     public void PrintDebugString()
     {
         Debug.Log(this.ToString());
     }
 
+
+    //Cube output positions
     public override string ToString()
     {
         string s;
@@ -56,4 +69,7 @@ public class LerpCubeScript : MonoBehaviour {
         return s;
     }
 
+
 }
+
+
